@@ -1,5 +1,7 @@
 const outputs = [];
 
+const k = 2;
+
 //1. gather data
 function onScoreUpdate(dropPosition, bounciness, size, bucketLabel) {
   outputs.push([dropPosition, bounciness, size, bucketLabel]);

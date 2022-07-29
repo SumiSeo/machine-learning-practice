@@ -1,14 +1,17 @@
 const outputs = [];
 
-const k = 2;
-
 //1. gather data
 function onScoreUpdate(dropPosition, bounciness, size, bucketLabel) {
   outputs.push([dropPosition, bounciness, size, bucketLabel]);
 }
 
 function runAnalysis() {
-  const bucket = console.log("Your point will probably fall into", bucket);
+  //1. split data
+  const [testSet, trainingSet] = splitDataset(outputs, 10);
+  for (let i = 0; i < testSet.length; i++) {
+    const bucket = knn(trainingSet, testSet[i][0]);
+    console.log("prection:", bucket, "true value:", testSet[i][3]);
+  }
 }
 
 //3. run knn algorithme with traning set of data
@@ -34,7 +37,7 @@ function distance(pointA, pointB) {
 function splitDataset(data, testCount) {
   const shuffled = _.shuffle(data);
   const testSet = _.slice(shuffled, 0, testCount);
-  const trainingSet = _.slice(suffled, testCount);
+  const trainingSet = _.slice(shuffled, testCount);
 
   return [testSet, trainingSet];
 }

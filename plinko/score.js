@@ -9,7 +9,7 @@ function runAnalysis() {
   const testSetSize = 50;
   // let numberCorrect = 0;
   // //1. split data
-  const [testSet, trainingSet] = splitDataset(minMax(outputs, 3), testSetSize);
+
   // for (let i = 0; i < testSet.length; i++) {
   //   const bucket = knn(trainingSet, testSet[i][0]);
   //   console.log("prection:", bucket, "true value:", testSet[i][3]);
@@ -17,17 +17,20 @@ function runAnalysis() {
   //     numberCorrect++;
   //   }
   // }
-
-  _.range(1, 15).forEach((k) => {
+  const k = 10;
+  _.range(0, 3).forEach((feature) => {
+    const data = _.map(outputs, (row) => [row[feature], _.last(row)]);
+    const [testSet, trainingSet] = splitDataset(minMax(data, 1), testSetSize);
+    //feature ===0, feature ===1, feature===3
     const accuracy = _.chain(testSet)
       .filter(
         (testPoint) =>
-          knn(trainingSet, _.initial(testPoint), k) === testPoint[3]
+          knn(trainingSet, _.initial(testPoint), k) === _.last(testPoint)
       )
       .size()
       .divide(testSetSize)
       .value();
-    console.log("k Value", k, "Accuracy", accuracy);
+    console.log("For feature of ", feature, "Accuracy", accuracy);
   });
 }
 
